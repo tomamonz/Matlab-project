@@ -1,0 +1,101 @@
+%Metoda bilansu losowego
+clear all
+clc
+
+x1_low = 1;
+x1_high = 8;
+
+x2_low = 83;
+x2_high = 220;
+
+x3_low = 55;
+x3_high = 120;
+
+x4_low = 15.3;
+x4_high = 18.7;
+
+sygnal=[x1_low  x2_low  x3_low  x4_low
+        x1_high x2_low  x3_low  x4_low
+        x1_low  x2_high x3_low  x4_low
+        x1_high x2_high x3_low  x4_low
+        x1_low  x2_low  x3_high x4_low
+        x1_high x2_low  x3_high x4_low
+        x1_low  x2_high x3_high x4_low
+        x1_high x2_high x3_high x4_low
+        x1_low  x2_low  x3_low  x4_high
+        x1_high x2_low  x3_low  x4_high
+        x1_low  x2_high x3_low  x4_high
+        x1_high x2_high x3_low  x4_high
+        x1_low  x2_low  x3_high x4_high
+        x1_high x2_low  x3_high x4_high
+        x1_low  x2_high x3_high x4_high
+        x1_high x2_high x3_high x4_high];
+    
+x_ticks=[1 3 5 7
+         2 3 5 7
+         1 4 5 7
+         2 4 5 7
+         1 3 6 7
+         2 3 6 7
+         1 4 6 7
+         2 4 6 7
+         1 3 5 8
+         2 3 5 8
+         1 4 5 8
+         2 4 5 8
+         1 3 6 8
+         2 3 6 8
+         1 4 6 8
+         2 4 6 8];
+
+load('wyjscie.mat');
+
+bilans=[y(1)  y(1)  y(1)  y(1)
+        y(2)  y(2)  y(2)  y(2)
+        y(3)  y(3)  y(3)  y(3)
+        y(4)  y(4)  y(4)  y(4)
+        y(5)  y(5)  y(5)  y(5)
+        y(6)  y(6)  y(6)  y(6)
+        y(7)  y(7)  y(7)  y(7)
+        y(8)  y(8)  y(8)  y(8)
+        y(9)  y(9)  y(9)  y(9)
+        y(10) y(10) y(10) y(10)
+        y(11) y(11) y(11) y(11)
+        y(12) y(12) y(12) y(12)
+        y(13) y(13) y(13) y(13)
+        y(14) y(14) y(14) y(14)
+        y(15) y(15) y(15) y(15)
+        y(16) y(16) y(16) y(16)];
+    
+plot(x_ticks, bilans, 'ko','MarkerFaceColor','g');
+hold on;
+    
+M=[median(bilans(1:2:16,1)) median(bilans(2:2:16,1))
+   median(bilans([1,2,5,6,9,10,13,14],2)) median(bilans([3,4,7,8,11,12,15,16],2))
+   median(bilans([1,2,3,4,9,10,11,12],3)) median(bilans([5,6,7,8,13,14,15,16],3))
+   median(bilans(1:1:8,4)) median(bilans(9:1:16,4))];
+
+plot(1, M(1,1),'ko','MarkerFaceColor','r')
+plot(2,M(1,2),'ko','MarkerFaceColor','r')
+plot(3, M(2,1),'ko','MarkerFaceColor','r')
+plot(4,M(2,2),'ko','MarkerFaceColor','r')
+plot(5, M(3,1),'ko','MarkerFaceColor','r')
+plot(6,M(3,2),'ko','MarkerFaceColor','r')
+plot(7, M(4,1),'ko','MarkerFaceColor','r')
+plot(8,M(4,2),'ko','MarkerFaceColor','r')
+
+xx = 1:1:8;
+
+xticks(xx)
+names={'x1-','x1+','x2-','x2+','x3-','x3+','x4-','x4+'};
+xticklabels(names)
+
+med_diff=[abs(M(1,1)-M(1,2))
+          abs(M(2,1)-M(2,2))
+          abs(M(3,1)-M(3,2))
+          abs(M(4,1)-M(4,2))];
+      
+plot([1 2],[M(1,1) M(1,2)],'k-')
+plot([3 4],[M(2,1) M(2,2)],'k-')
+plot([5 6],[M(3,1) M(3,2)],'k-')
+plot([7 8],[M(4,1) M(4,2)],'k-')
